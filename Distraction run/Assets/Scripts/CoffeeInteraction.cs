@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class CoffeeInteraction : MonoBehaviour
 {
@@ -9,14 +10,16 @@ public class CoffeeInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
     public int focusPoints = 100;
-    public int coffeeBoost = 10;
+    public int coffeeBoost = 30;
 
     private bool coffeeUsed = false;
 
     void Start()
     {
         interactText.SetActive(false);
+
         pointText.text = "";
+        pointText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -31,7 +34,7 @@ public class CoffeeInteraction : MonoBehaviour
             {
                 focusPoints += coffeeBoost;
 
-                pointText.text = "+" + coffeeBoost + " Focus";
+                StartCoroutine(ShowPoints());
 
                 interactText.SetActive(false);
 
@@ -44,5 +47,16 @@ public class CoffeeInteraction : MonoBehaviour
         {
             interactText.SetActive(false);
         }
+    }
+
+    IEnumerator ShowPoints()
+    {
+        pointText.gameObject.SetActive(true);
+
+        pointText.text = "+" + coffeeBoost + " Focus";
+
+        yield return new WaitForSeconds(2f);
+
+        pointText.gameObject.SetActive(false);
     }
 }

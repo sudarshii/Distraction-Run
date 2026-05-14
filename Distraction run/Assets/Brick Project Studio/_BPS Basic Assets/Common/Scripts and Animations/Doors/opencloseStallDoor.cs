@@ -20,7 +20,7 @@ namespace SojaExiles
             {
                 float dist = Vector3.Distance(Player.position, transform.position);
 
-                if (dist < 15)
+                if (dist < 2)
                 {
                     if (Input.GetKeyDown(KeyCode.E))
                     {
