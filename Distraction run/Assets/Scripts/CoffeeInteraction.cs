@@ -31,13 +31,13 @@ public class CoffeeInteraction : MonoBehaviour
             {
                 focusPoints += coffeeBoost;
 
-                pointText.text = "+" + coffeeBoost + " Focus | Focus: " + focusPoints;
+                pointText.text = "+" + coffeeBoost + " Focus";
 
                 interactText.SetActive(false);
 
                 coffeeUsed = true;
 
-                Debug.Log("Coffee Used! +" + coffeeBoost + " Focus");
+                Debug.Log("Coffee Used!");
             }
         }
         else
