@@ -1,22 +1,25 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class LaptopInteraction : MonoBehaviour
 {
     public Transform laptop;
     public GameObject interactText;
-    public TMP_Text pointText;
+    public TMP_Text LappyText;
 
     public float interactionDistance = 3f;
     public int focusPoints = 100;
-    public int laptopPoints = 20;
+    public int laptopPoints = 30;
 
     private bool laptopUsed = false;
 
     void Start()
     {
         interactText.SetActive(false);
-        pointText.text = "";
+
+        LappyText.text = "";
+        LappyText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -29,9 +32,9 @@ public class LaptopInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                focusPoints += laptopPoints;
+                focusPoints -= laptopPoints;
 
-                pointText.text = "+" + laptopPoints + " Focus";
+                StartCoroutine(ShowPoints());
 
                 interactText.SetActive(false);
 
@@ -44,5 +47,16 @@ public class LaptopInteraction : MonoBehaviour
         {
             interactText.SetActive(false);
         }
+    }
+
+    IEnumerator ShowPoints()
+    {
+        LappyText.gameObject.SetActive(true);
+
+        LappyText.text = "-" + laptopPoints + " Focus";
+
+        yield return new WaitForSeconds(2f);
+
+        LappyText.gameObject.SetActive(false);
     }
 }

@@ -1,22 +1,25 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class BookInteraction : MonoBehaviour
 {
     public Transform book;
     public GameObject interactText;
-    public TMP_Text pointText;
+    public TMP_Text KitabText;
 
     public float interactionDistance = 3f;
     public int focusPoints = 100;
-    public int focusGain = 15;
+    public int focusGain = 40;
 
     private bool bookUsed = false;
 
     void Start()
     {
         interactText.SetActive(false);
-        pointText.text = "";
+
+        KitabText.text = "";
+        KitabText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -31,7 +34,7 @@ public class BookInteraction : MonoBehaviour
             {
                 focusPoints += focusGain;
 
-                pointText.text = "+" + focusGain + " Focus";
+                StartCoroutine(ShowPoints());
 
                 interactText.SetActive(false);
 
@@ -42,5 +45,16 @@ public class BookInteraction : MonoBehaviour
         {
             interactText.SetActive(false);
         }
+    }
+
+    IEnumerator ShowPoints()
+    {
+        KitabText.gameObject.SetActive(true);
+
+        KitabText.text = "+" + focusGain + " Focus";
+
+        yield return new WaitForSeconds(2f);
+
+        KitabText.gameObject.SetActive(false);
     }
 }

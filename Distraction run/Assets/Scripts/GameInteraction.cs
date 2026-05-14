@@ -1,22 +1,26 @@
 using UnityEngine;
 using TMPro;
+using System.Collections;
 
 public class GameInteraction : MonoBehaviour
 {
     public Transform gameObjectItem;
     public GameObject interactText;
-    public TMP_Text pointText;
+    public TMP_Text PlayText;
 
     public float interactionDistance = 3f;
+
     public int focusPoints = 100;
-    public int focusLoss = 15;
+    public int focusLoss = 30;
 
     private bool gameUsed = false;
 
     void Start()
     {
         interactText.SetActive(false);
-        pointText.text = "";
+
+        PlayText.text = "";
+        PlayText.gameObject.SetActive(false);
     }
 
     void Update()
@@ -31,7 +35,7 @@ public class GameInteraction : MonoBehaviour
             {
                 focusPoints -= focusLoss;
 
-                pointText.text = "-" + focusLoss + " Focus";
+                StartCoroutine(ShowPoints());
 
                 interactText.SetActive(false);
 
@@ -42,5 +46,16 @@ public class GameInteraction : MonoBehaviour
         {
             interactText.SetActive(false);
         }
+    }
+
+    IEnumerator ShowPoints()
+    {
+        PlayText.gameObject.SetActive(true);
+
+        PlayText.text = "-" + focusLoss + " Focus";
+
+        yield return new WaitForSeconds(2f);
+
+        PlayText.gameObject.SetActive(false);
     }
 }
