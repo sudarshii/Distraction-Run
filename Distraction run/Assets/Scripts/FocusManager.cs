@@ -8,9 +8,21 @@ public class FocusManager : MonoBehaviour
     public static FocusManager instance;
 
     public Slider focusBar;
-    public TMP_Text messageText;
 
-    public int focusPoints = 50;
+    public GameObject startPanel;
+    public TMP_Text startText;
+
+    public TMP_Text pointText;
+
+    public GameObject endPanel;
+    public TMP_Text endText;
+
+    public int focusPoints = 100;
+    public int maxFocus = 200;
+    public int winPoint = 160;
+    public int losePoint = 40;
+
+    private bool gameEnded = false;
 
     void Awake()
     {
@@ -19,54 +31,73 @@ public class FocusManager : MonoBehaviour
 
     void Start()
     {
-        UpdateUI();
+        Time.timeScale = 1;
 
-        messageText.text = "";
-        messageText.gameObject.SetActive(false);
+        focusBar.minValue = 0;
+        focusBar.maxValue = maxFocus;
+        focusBar.value = focusPoints;
+
+        startPanel.SetActive(false);
+        pointText.gameObject.SetActive(false);
+        endPanel.SetActive(false);
+
+        StartCoroutine(StartMessage());
+    }
+
+    IEnumerator StartMessage()
+    {
+        startPanel.SetActive(true);
+        startText.text = "Interact with the things that will make you smart.";
+
+        yield return new WaitForSeconds(4f);
+
+        startPanel.SetActive(false);
     }
 
     public void ChangeFocus(int amount)
     {
+        if (gameEnded) return;
+
         focusPoints += amount;
+        focusPoints = Mathf.Clamp(focusPoints, 0, maxFocus);
 
-        focusPoints = Mathf.Clamp(focusPoints, 0, 100);
-
-        UpdateUI();
-
-        StartCoroutine(ShowMessage(amount));
-    }
-
-    void UpdateUI()
-    {
         focusBar.value = focusPoints;
+
+        StartCoroutine(ShowPoints(amount));
+
+        if (focusPoints >= winPoint)
+        {
+            StartCoroutine(EndGame("Great job. You'll pass the exam."));
+        }
+        else if (focusPoints <= losePoint)
+        {
+            StartCoroutine(EndGame("You need to focus more on your studies."));
+        }
     }
 
-    IEnumerator ShowMessage(int amount)
+    IEnumerator ShowPoints(int amount)
     {
-        messageText.gameObject.SetActive(true);
+        pointText.gameObject.SetActive(true);
 
-        if (focusPoints <= 0)
-        {
-            messageText.text = "You need to focus more on your studies.";
-        }
-        else if (focusPoints >= 100)
-        {
-            messageText.text = "Keep going. You can pass the exam.";
-        }
+        if (amount > 0)
+            pointText.text = "+" + amount + " Focus";
         else
-        {
-            if (amount > 0)
-            {
-                messageText.text = "+" + amount + " Focus";
-            }
-            else
-            {
-                messageText.text = amount + " Focus";
-            }
-        }
+            pointText.text = amount + " Focus";
 
         yield return new WaitForSeconds(2f);
 
-        messageText.gameObject.SetActive(false);
+        pointText.gameObject.SetActive(false);
+    }
+
+    IEnumerator EndGame(string message)
+    {
+        gameEnded = true;
+
+        endPanel.SetActive(true);
+        endText.text = message;
+
+        yield return new WaitForSeconds(4f);
+
+        Time.timeScale = 0;
     }
 }

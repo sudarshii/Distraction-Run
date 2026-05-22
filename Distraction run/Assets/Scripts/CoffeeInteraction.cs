@@ -7,7 +7,7 @@ public class CoffeeInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
 
-    private bool coffeeUsed = false;
+    bool used = false;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class CoffeeInteraction : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, coffee.position);
 
-        if (distance <= interactionDistance && !coffeeUsed)
+        if (distance <= interactionDistance && !used)
         {
             interactText.SetActive(true);
 
@@ -26,9 +26,9 @@ public class CoffeeInteraction : MonoBehaviour
             {
                 FocusManager.instance.ChangeFocus(30);
 
-                interactText.SetActive(false);
+                used = true;
 
-                coffeeUsed = true;
+                interactText.SetActive(false);
             }
         }
         else

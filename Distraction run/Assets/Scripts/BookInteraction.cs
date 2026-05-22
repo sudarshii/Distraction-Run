@@ -7,7 +7,7 @@ public class BookInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
 
-    private bool bookUsed = false;
+    bool used = false;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class BookInteraction : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, book.position);
 
-        if (distance <= interactionDistance && !bookUsed)
+        if (distance <= interactionDistance && !used)
         {
             interactText.SetActive(true);
 
@@ -26,9 +26,9 @@ public class BookInteraction : MonoBehaviour
             {
                 FocusManager.instance.ChangeFocus(40);
 
-                interactText.SetActive(false);
+                used = true;
 
-                bookUsed = true;
+                interactText.SetActive(false);
             }
         }
         else

@@ -7,7 +7,7 @@ public class BedInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
 
-    private bool bedUsed = false;
+    bool used = false;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class BedInteraction : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, bed.position);
 
-        if (distance <= interactionDistance && !bedUsed)
+        if (distance <= interactionDistance && !used)
         {
             interactText.SetActive(true);
 
@@ -26,9 +26,9 @@ public class BedInteraction : MonoBehaviour
             {
                 FocusManager.instance.ChangeFocus(-30);
 
-                interactText.SetActive(false);
+                used = true;
 
-                bedUsed = true;
+                interactText.SetActive(false);
             }
         }
         else

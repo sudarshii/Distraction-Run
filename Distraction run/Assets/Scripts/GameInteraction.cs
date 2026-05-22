@@ -7,7 +7,7 @@ public class GameInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
 
-    private bool gameUsed = false;
+    bool used = false;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class GameInteraction : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, gameObjectItem.position);
 
-        if (distance <= interactionDistance && !gameUsed)
+        if (distance <= interactionDistance && !used)
         {
             interactText.SetActive(true);
 
@@ -26,9 +26,9 @@ public class GameInteraction : MonoBehaviour
             {
                 FocusManager.instance.ChangeFocus(-30);
 
-                interactText.SetActive(false);
+                used = true;
 
-                gameUsed = true;
+                interactText.SetActive(false);
             }
         }
         else

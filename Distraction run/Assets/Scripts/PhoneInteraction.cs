@@ -7,7 +7,7 @@ public class PhoneInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
 
-    private bool phoneUsed = false;
+    bool used = false;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class PhoneInteraction : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, phone.position);
 
-        if (distance <= interactionDistance && !phoneUsed)
+        if (distance <= interactionDistance && !used)
         {
             interactText.SetActive(true);
 
@@ -26,9 +26,9 @@ public class PhoneInteraction : MonoBehaviour
             {
                 FocusManager.instance.ChangeFocus(-40);
 
-                interactText.SetActive(false);
+                used = true;
 
-                phoneUsed = true;
+                interactText.SetActive(false);
             }
         }
         else

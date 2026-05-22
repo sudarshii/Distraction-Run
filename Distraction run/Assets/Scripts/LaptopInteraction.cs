@@ -7,7 +7,7 @@ public class LaptopInteraction : MonoBehaviour
 
     public float interactionDistance = 3f;
 
-    private bool laptopUsed = false;
+    bool used = false;
 
     void Start()
     {
@@ -18,7 +18,7 @@ public class LaptopInteraction : MonoBehaviour
     {
         float distance = Vector3.Distance(transform.position, laptop.position);
 
-        if (distance <= interactionDistance && !laptopUsed)
+        if (distance <= interactionDistance && !used)
         {
             interactText.SetActive(true);
 
@@ -26,9 +26,9 @@ public class LaptopInteraction : MonoBehaviour
             {
                 FocusManager.instance.ChangeFocus(30);
 
-                interactText.SetActive(false);
+                used = true;
 
-                laptopUsed = true;
+                interactText.SetActive(false);
             }
         }
         else
